@@ -53,40 +53,40 @@ graph TD
 ## 2. Pregled Strukture Koda i Glavnih Datoteka
 
 ### 2.1 Frontend Komponente i Stanja (`frontend/src/`)
-- [App.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/App.tsx): Glavna klijentska komponenta sa konfiguracijom ruta (`/`, `/checkout`, `/special-order`, `/dashboard`, `/login`).
+- [App.tsx](frontend/src/App.tsx): Glavna klijentska komponenta sa konfiguracijom ruta (`/`, `/checkout`, `/special-order`, `/dashboard`, `/login`).
 - **Store Slices (`frontend/src/store/`)**:
-  - [types.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/types.ts): Definiše TypeScript interfejse za modele podataka (`Part`, `Order`, `User`, `SpecialOrder`, `OrderItem`).
-  - [useStore.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/useStore.ts): Kombinuje sve Zustand celine u jedan globalni klijentski store.
-  - [authSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/authSlice.ts): Upravlja stanjem korisnika, ulogama (`CLIENT`, `EMPLOYEE`, `ADMIN`, `GUEST`) i tokenima.
-  - [partsSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/partsSlice.ts): Preuzimanje kataloga delova, pretraga, fitment filteri i selektor aktivnog vozila.
-  - [cartSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/cartSlice.ts): Funkcionalnosti korpe (dodavanje, izmena količine, računanje subtotala, pražnjenje).
-  - [ordersSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/ordersSlice.ts): Kreiranje standardnih porudžbina i ažuriranje njihovih statusa od strane zaposlenih.
-  - [specialOrdersSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/specialOrdersSlice.ts): Slanje i upravljanje specijalnim upitima za delove.
-  - [notificationsSlice.ts](file:///home/luka/Development/IT321-Ispit2/frontend/src/store/notificationsSlice.ts): Upravljanje restock pretplatama na listu obaveštenja.
+  - [types.ts](frontend/src/store/types.ts): Definiše TypeScript interfejse za modele podataka (`Part`, `Order`, `User`, `SpecialOrder`, `OrderItem`).
+  - [useStore.ts](frontend/src/store/useStore.ts): Kombinuje sve Zustand celine u jedan globalni klijentski store.
+  - [authSlice.ts](frontend/src/store/authSlice.ts): Upravlja stanjem korisnika, ulogama (`CLIENT`, `EMPLOYEE`, `ADMIN`, `GUEST`) i tokenima.
+  - [partsSlice.ts](frontend/src/store/partsSlice.ts): Preuzimanje kataloga delova, pretraga, fitment filteri i selektor aktivnog vozila.
+  - [cartSlice.ts](frontend/src/store/cartSlice.ts): Funkcionalnosti korpe (dodavanje, izmena količine, računanje subtotala, pražnjenje).
+  - [ordersSlice.ts](frontend/src/store/ordersSlice.ts): Kreiranje standardnih porudžbina i ažuriranje njihovih statusa od strane zaposlenih.
+  - [specialOrdersSlice.ts](frontend/src/store/specialOrdersSlice.ts): Slanje i upravljanje specijalnim upitima za delove.
+  - [notificationsSlice.ts](frontend/src/store/notificationsSlice.ts): Upravljanje restock pretplatama na listu obaveštenja.
 - **Stranice (`frontend/src/pages/`)**:
-  - [Catalog.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/pages/Catalog.tsx): Katalog artikala sa filterima kompatibilnosti, pretragom i modalom "Obavesti me".
-  - [Checkout.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/pages/Checkout.tsx): Kasa, unos podataka, izbor plaćanja (Card/COD) i registracija gostiju nakon naručivanja.
-  - [SpecialOrder.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/pages/SpecialOrder.tsx): Forma za slanje upita za delove koji se ne nalaze na uobičajenom lageru.
-  - [Dashboard.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/pages/Dashboard.tsx): Kontrolna tabla za kupce (pregled istorije) i zaposlene/admine (promena statusa porudžbina, CRUD kataloga, odgovaranje na specijalne upite i upravljanje zaposlenima).
-  - [Login.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/pages/Login.tsx): Registracioni i prijavni portali.
+  - [Catalog.tsx](frontend/src/pages/Catalog.tsx): Katalog artikala sa filterima kompatibilnosti, pretragom i modalom "Obavesti me".
+  - [Checkout.tsx](frontend/src/pages/Checkout.tsx): Kasa, unos podataka, izbor plaćanja (Card/COD) i registracija gostiju nakon naručivanja.
+  - [SpecialOrder.tsx](frontend/src/pages/SpecialOrder.tsx): Forma za slanje upita za delove koji se ne nalaze na uobičajenom lageru.
+  - [Dashboard.tsx](frontend/src/pages/Dashboard.tsx): Kontrolna tabla za kupce (pregled istorije) i zaposlene/admine (promena statusa porudžbina, CRUD kataloga, odgovaranje na specijalne upite i upravljanje zaposlenima).
+  - [Login.tsx](frontend/src/pages/Login.tsx): Registracioni i prijavni portali.
 
 ### 2.2 Backend Modul (`backend/src/main/java/com/apexparts/`)
 - **Model (JPA Entities)**:
-  - [Part.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/Part.java): Artikal u bazi sa poljima za cenu, brend, količinu na lageru, status i listu kompatibilnosti.
-  - [Order.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/Order.java) & [OrderItem.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/OrderItem.java): Porudžbine klijenata sa stavkama i cenama u trenutku kupovine.
-  - [User.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/User.java): Korisnički nalozi sa definisanim ulogama.
-  - [SpecialOrder.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/SpecialOrder.java): Detalji o automobilu klijenta, opis traženog dela, procena dobavljača, rok isporuke i lokacija preuzimanja.
-  - [NotificationRequest.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/model/NotificationRequest.java): Zahtevi za obaveštenja o dostupnosti delova.
+  - [Part.java](backend/src/main/java/com/apexparts/model/Part.java): Artikal u bazi sa poljima za cenu, brend, količinu na lageru, status i listu kompatibilnosti.
+  - [Order.java](backend/src/main/java/com/apexparts/model/Order.java) & [OrderItem.java](backend/src/main/java/com/apexparts/model/OrderItem.java): Porudžbine klijenata sa stavkama i cenama u trenutku kupovine.
+  - [User.java](backend/src/main/java/com/apexparts/model/User.java): Korisnički nalozi sa definisanim ulogama.
+  - [SpecialOrder.java](backend/src/main/java/com/apexparts/model/SpecialOrder.java): Detalji o automobilu klijenta, opis traženog dela, procena dobavljača, rok isporuke i lokacija preuzimanja.
+  - [NotificationRequest.java](backend/src/main/java/com/apexparts/model/NotificationRequest.java): Zahtevi za obaveštenja o dostupnosti delova.
 - **Service Layer**:
-  - [OrderService.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/service/OrderService.java): Validira postojanje klijenta, dostupne zalihe, računa cenu, postavlja inicijalni status `CREATED`, umanjuje količinu sa stanja i vrši upis u bazu.
-  - [PartService.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/service/PartService.java): CRUD operacije. Kada se status dela promeni u `IN_STOCK`, prolazi kroz listu čekanja i loguje poslata obaveštenja (Email/SMS).
-  - [UserService.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/service/UserService.java): Prijava korisnika (omogućena i preko username-a i preko e-maila), registracija klijenata, i dodavanje novih zaposlenih (dozvoljeno adminima i postojećim zaposlenima).
+  - [OrderService.java](backend/src/main/java/com/apexparts/service/OrderService.java): Validira postojanje klijenta, dostupne zalihe, računa cenu, postavlja inicijalni status `CREATED`, umanjuje količinu sa stanja i vrši upis u bazu.
+  - [PartService.java](backend/src/main/java/com/apexparts/service/PartService.java): CRUD operacije. Kada se status dela promeni u `IN_STOCK`, prolazi kroz listu čekanja i loguje poslata obaveštenja (Email/SMS).
+  - [UserService.java](backend/src/main/java/com/apexparts/service/UserService.java): Prijava korisnika (omogućena i preko username-a i preko e-maila), registracija klijenata, i dodavanje novih zaposlenih (dozvoljeno adminima i postojećim zaposlenima).
 - **Controllers (REST API)**:
-  - [PartController.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/controller/PartController.java)
-  - [OrderController.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/controller/OrderController.java)
-  - [UserController.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/controller/UserController.java)
+  - [PartController.java](backend/src/main/java/com/apexparts/controller/PartController.java)
+  - [OrderController.java](backend/src/main/java/com/apexparts/controller/OrderController.java)
+  - [UserController.java](backend/src/main/java/com/apexparts/controller/UserController.java)
 - **Config**:
-  - [DatabaseSeeder.java](file:///home/luka/Development/IT321-Ispit2/backend/src/main/java/com/apexparts/config/DatabaseSeeder.java): CommandLineRunner koji pri svakom startovanju čiste baze upisuje početne zaposlene (`admin`, `marko`, `ana`) i katalog od 8 artikala.
+  - [DatabaseSeeder.java](backend/src/main/java/com/apexparts/config/DatabaseSeeder.java): CommandLineRunner koji pri svakom startovanju čiste baze upisuje početne zaposlene (`admin`, `marko`, `ana`) i katalog od 8 artikala.
 
 ---
 
@@ -95,7 +95,7 @@ graph TD
 U skladu sa zahtevima ispita, u potpunosti je realizovan testni sistem koji pokriva sve aspekte piramide testiranja:
 
 ### 3.1 Jedinični testovi (Unit Testing) - JUnit 5 + Mockito
-Nalaze se u klasi [OrderServiceUnitTest.java](file:///home/luka/Development/IT321-Ispit2/backend/src/test/java/com/apexparts/service/OrderServiceUnitTest.java).
+Nalaze se u klasi [OrderServiceUnitTest.java](backend/src/test/java/com/apexparts/service/OrderServiceUnitTest.java).
 - **Šta se testira**: Metoda `OrderService.createOrder(...)` u potpunoj izolaciji.
 - **Mokovane zavisnosti**: `OrderRepository`, `UserRepository`, `PartRepository`.
 - **Pokriveni scenariji**:
@@ -106,7 +106,7 @@ Nalaze se u klasi [OrderServiceUnitTest.java](file:///home/luka/Development/IT32
   5. Tačno računanje ukupne cene za više različitih artikala.
 
 ### 3.2 Integracioni testovi REST API-ja - Spring Boot Test + MockMvc
-Nalaze se u klasi [OrderControllerIntegrationTest.java](file:///home/luka/Development/IT321-Ispit2/backend/src/test/java/com/apexparts/controller/OrderControllerIntegrationTest.java).
+Nalaze se u klasi [OrderControllerIntegrationTest.java](backend/src/test/java/com/apexparts/controller/OrderControllerIntegrationTest.java).
 - **Šta se testira**: Putanja `Controller -> Service -> Repository -> H2 Database` (H2 baza se podiže u `create-drop` režimu direktno iz anotacije testa).
 - **Pokriveni scenariji**:
   1. Uspešno slanje HTTP POST zahteva za kreiranje porudžbine (provera JSON-a, statusa `201 Created` i umanjenja stanja u H2 bazi).
@@ -115,7 +115,7 @@ Nalaze se u klasi [OrderControllerIntegrationTest.java](file:///home/luka/Develo
   4. Tranzicije statusa (provera dozvoljenog toka `CREATED -> PROCESSING -> SHIPPED -> DELIVERED` i odbijanje nedozvoljene tranzicije `DELIVERED -> CREATED`).
 
 ### 3.3 Testovi React Komponenti - Vitest + React Testing Library + MSW
-Nalaze se u datoteci [Catalog.test.tsx](file:///home/luka/Development/IT321-Ispit2/frontend/src/tests/Catalog.test.tsx).
+Nalaze se u datoteci [Catalog.test.tsx](frontend/src/tests/Catalog.test.tsx).
 - **Šta se testira**: Ponašanje korisničkog interfejsa u JSDOM okruženju, presrećući mrežne zahteve preko Mock Service Worker-a (MSW).
 - **Pokriveni scenariji**:
   1. Prikaz svih artikala nakon uspešnog API učitavanja.
@@ -127,8 +127,8 @@ Nalaze se u datoteci [Catalog.test.tsx](file:///home/luka/Development/IT321-Ispi
   7. Uspešno slanje porudžbine kroz checkout formu na mockovani backend i pražnjenje korpe.
 
 ### 3.4 End-to-End (E2E) Testovi - Playwright
-Nalaze se u datoteci [flow.spec.ts](file:///home/luka/Development/IT321-Ispit2/frontend/e2e/flow.spec.ts).
-- **Šta se testira**: Celokupan tok u realnom pretraživaču komunicirajući sa pokrenutim serverima na portu `5174` (React) i `8080` (Spring Boot API).
+Nalaze se u datoteci [flow.spec.ts](frontend/e2e/flow.spec.ts).
+- **Šta se testira**: Celokupan tok u realnom pretraživaču komunicirajući sa pokrenutim serverima na portu `5173` (React) i `8080` (Spring Boot API).
 - **E2E Scenario**:
   1. Otvaranje stranice za prijavu.
   2. Registracija novog klijenta sa jedinstvenim imenom i lozinkom.
