@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { useNavigate } from 'react-router-dom';
 import { UserCheck, ShieldAlert, ArrowRight } from 'lucide-react';
+import RegisterForm from '../components/RegisterForm';
 
 export const Login: React.FC = () => {
   const { login, registerClient } = useStore();
@@ -9,7 +10,7 @@ export const Login: React.FC = () => {
 
   // Active Main Tab: 'CLIENT' | 'EMPLOYEE'
   const [activeRole, setActiveRole] = useState<'CLIENT' | 'EMPLOYEE'>('CLIENT');
-  
+
   // Client Sub-tab: 'LOGIN' | 'REGISTER'
   const [clientTab, setClientTab] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
 
@@ -67,7 +68,7 @@ export const Login: React.FC = () => {
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6 lg:px-8">
       <div className="bg-metallic border border-titanium rounded-xl p-6 md:p-8 shadow-2xl animate-fadeIn">
-        
+
         {/* Logo indicator */}
         <div className="text-center mb-6">
           <span className="font-technical text-xl font-bold tracking-wider text-white block">
@@ -80,22 +81,20 @@ export const Login: React.FC = () => {
         <div className="flex border border-titanium rounded-lg p-1 bg-obsidian mb-6">
           <button
             onClick={() => { setActiveRole('CLIENT'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded text-xs font-semibold cursor-pointer transition-all ${
-              activeRole === 'CLIENT' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'text-gray-400 hover:text-white'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded text-xs font-semibold cursor-pointer transition-all ${activeRole === 'CLIENT'
+              ? 'bg-primary text-white shadow-md'
+              : 'text-gray-400 hover:text-white'
+              }`}
           >
             <UserCheck size={14} />
             Klijent / Kupac
           </button>
           <button
             onClick={() => { setActiveRole('EMPLOYEE'); setErrorMsg(''); }}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded text-xs font-semibold cursor-pointer transition-all ${
-              activeRole === 'EMPLOYEE' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'text-gray-400 hover:text-white'
-            }`}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded text-xs font-semibold cursor-pointer transition-all ${activeRole === 'EMPLOYEE'
+              ? 'bg-primary text-white shadow-md'
+              : 'text-gray-400 hover:text-white'
+              }`}
           >
             <ShieldAlert size={14} />
             Zaposleni
@@ -115,17 +114,15 @@ export const Login: React.FC = () => {
             <div className="flex justify-center gap-4 text-xs font-semibold mb-6 border-b border-titanium/50 pb-2">
               <button
                 onClick={() => setClientTab('LOGIN')}
-                className={`pb-1 cursor-pointer transition-colors ${
-                  clientTab === 'LOGIN' ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-white'
-                }`}
+                className={`pb-1 cursor-pointer transition-colors ${clientTab === 'LOGIN' ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-white'
+                  }`}
               >
                 Prijavi Se
               </button>
               <button
                 onClick={() => setClientTab('REGISTER')}
-                className={`pb-1 cursor-pointer transition-colors ${
-                  clientTab === 'REGISTER' ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-white'
-                }`}
+                className={`pb-1 cursor-pointer transition-colors ${clientTab === 'REGISTER' ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-white'
+                  }`}
               >
                 Registruj Nalog
               </button>
@@ -155,7 +152,7 @@ export const Login: React.FC = () => {
                     className="w-full px-3 py-2 bg-obsidian border border-titanium text-white text-xs rounded focus:border-primary outline-none"
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   className="w-full py-2.5 bg-primary hover:bg-primary-hover text-white rounded text-xs font-semibold tracking-wider transition-colors cursor-pointer glow-primary"
@@ -164,59 +161,18 @@ export const Login: React.FC = () => {
                 </button>
               </form>
             ) : (
-              <form onSubmit={handleClientRegister} className="space-y-4">
-                <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-1">Korisničko ime</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="markom"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full px-3 py-2 bg-obsidian border border-titanium text-white text-xs rounded focus:border-primary outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-1">E-mail Adresa</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="marko@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 bg-obsidian border border-titanium text-white text-xs rounded focus:border-primary outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-1">Broj Telefona</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="060 123 456"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3 py-2 bg-obsidian border border-titanium text-white text-xs rounded focus:border-primary outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-semibold text-gray-400 uppercase mb-1">Lozinka</label>
-                  <input
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-3 py-2 bg-obsidian border border-titanium text-white text-xs rounded focus:border-primary outline-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-2.5 bg-primary hover:bg-primary-hover text-white rounded text-xs font-semibold tracking-wider transition-colors cursor-pointer glow-primary"
-                >
-                  REGISTRUJ SE I PRIJAVI
-                </button>
-              </form>
+              // RegisterForm
+              <RegisterForm
+                handleClientRegister={handleClientRegister}
+                username={username}
+                setUsername={setUsername}
+                email={email}
+                setEmail={setEmail}
+                phone={phone}
+                setPhone={setPhone}
+                password={password}
+                setPassword={setPassword}
+              />
             )}
 
             {/* Guest Action */}

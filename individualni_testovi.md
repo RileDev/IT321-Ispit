@@ -80,3 +80,42 @@ Klasa `AuthIntegrationTest` testira integraciju celog toka: **Controller $\right
   3. **Stanje u bazi:** Preko `userRepository.findByEmail("petar@example.com")` se proverava da li korisnik zaista postoji u testnoj bazi podataka.
   4. **Zaštita lozinke:** Proverava se da lozinka u bazi **nije** upisana u plain-text obliku (`"Test1234"`). Pomoću `passwordEncoder.matches` se potvrđuje da je lozinka uspešno kriptovana korišćenjem sigurnosnog enkodera.
   5. **Transakcioni integritet:** Zahvaljujući anotaciji `@Transactional`, sve izmene napravljene nad bazom podataka se automatski poništavaju na kraju testa, osiguravajući da test ne prlja bazu podataka za naredna pokretanja.
+
+---
+
+## 3. Testiranje React Frontenda
+
+### Pokretanje testova
+Testovi za React frontend se nalaze u fajlu [RegisterForm.test.tsx](/frontend/src/tests/RegisterForm.test.tsx). Pokretanjem sledeće komande u `frontend` folderu:
+
+```bash
+npx vitest run src/tests/RegisterForm.test.tsx
+```
+
+dobijeni su sledeći rezultati:
+* **Ukupno testova:** 2
+* **Failures (Neuspešni):** 0
+* **Errors (Greške):** 0
+* **Skipped (Preskočeni):** 0
+* **Status:** `PASSED`
+
+### Dokumentacija testova za `<RegisterForm />` komponentu
+Testovi koriste **Vitest** kao test runner i **React Testing Library** (RTL) za renderovanje i verifikaciju elemenata u virtualnom DOM-u (`jsdom`).
+
+#### 3.1 `uspesno popunjava obavezna polja, klikce na dugme i prikazuje poruku o uspehu`
+* **Cilj testa:** Provera da li se forma pravilno popunjava, da li klik na dugme poziva funkciju za registraciju i da li se na kraju uspešno prikazuje poruka o uspešnoj registraciji.
+* **Procedura testiranja:**
+  1. Renderuje se pomoćni `RegisterFormTestWrapper` sa mock funkcijom za submit (`vi.fn()`).
+  2. Pomoću `screen.getByPlaceholderText` pronalaze se input polja na osnovu njihovih placeholder-a.
+  3. Preko `fireEvent.change` unose se podaci u polja: Korisničko ime (`"Petar"`), Email (`"petar@example.com"`), Telefon (`"061111222"`) i Lozinka (`"Test1234"`).
+  4. Preko `fireEvent.click` klikće se dugme sa tekstom `"REGISTRUJ SE I PRIJAVI"`.
+  5. Verifikuje se da je prosleđena submit metoda pozvana tačno jednom (`expect(mockSubmit).toHaveBeenCalledTimes(1)`).
+  6. Rerenderuje se komponenta sa postavljenom uspešnom registracijom (`registrationSuccess = true`) i proverava se da li je tekst `"Registracija je uspešna"` vidljiv na ekranu pomoću `screen.getByText` i `toBeInTheDocument()`.
+
+#### 3.2 `ne dozvoljava slanje forme ako email nije unet`
+* **Cilj testa:** Provera da li HTML5 i klijentska validacija sprečavaju slanje forme ukoliko korisnik ne unese obavezno polje za email.
+* **Procedura testiranja:**
+  1. Renderuje se `RegisterFormTestWrapper` sa mock submit funkcijom.
+  2. Popunjavaju se sva polja (Korisničko ime, Telefon, Lozinka) osim polja za Email.
+  3. Pokušava se slanje forme klikom na submit dugme.
+  4. Verifikuje se da je browser (HTML5) blokirao slanje forme i da mock submit metoda **nikada** nije pozvana (`expect(mockSubmit).not.toHaveBeenCalled()`).
