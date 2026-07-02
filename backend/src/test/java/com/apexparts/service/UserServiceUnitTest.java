@@ -2,6 +2,7 @@ package com.apexparts.service;
 
 import com.apexparts.model.User;
 import com.apexparts.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,6 +24,9 @@ public class UserServiceUnitTest {
 
     @InjectMocks
     private UserService userService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @Test
     public void verifyLogin_SuccessfulWithUsername() {
@@ -139,8 +145,58 @@ public class UserServiceUnitTest {
             userService.addEmployee(clientCaller, newEmployeeName);
         });
 
-        assertEquals("Pristup odbijen. Samo administrator i zaposleni mogu dodati nove zaposlene.", exception.getMessage());
+        assertEquals("Pristup odbijen. Samo administrator i zaposleni mogu dodati nove zaposlene.",
+                exception.getMessage());
         verify(userRepository, times(1)).findByUsername(clientCaller);
         verify(userRepository, never()).save(any(User.class));
     }
+
+    @Test
+    public void registerClient_sameEmail() {
+        String email = "luka@gmail.com";
+        String username = "RileLuka";
+        String password = "Sifra1234";
+
+        User user = new User(username, password, "CLIENT", email, "060-6767-67");
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.registerClient(user);
+        });
+
+        assertEquals("Email ime '" + email + "' je zauzeto.", exception.getMessage());
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    public void registerClient_successfulRegistration() {
+        String email = "luka@gmail.com";
+        String username = "RileLuka";
+        String password = "Sifra1234";
+        String encodedPassword = "encoded_Sifra1234";
+
+        User user = new User(username, password, "CLIENT", email, "060-6767-67");
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
+
+        User registeredUser = userService.registerClient(user);
+
+        assertNotNull(registeredUser);
+        assertEquals(username, registeredUser.getUsername());
+        assertEquals(email, registeredUser.getEmail());
+        assertEquals("CLIENT", registeredUser.getRole());
+        assertEquals(encodedPassword, registeredUser.getPassword());
+
+        verify(userRepository, times(1)).findByUsername(username);
+        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, times(1)).save(any(User.class));
+        verify(passwordEncoder, times(1)).encode(password);
+
+    }
+
 }

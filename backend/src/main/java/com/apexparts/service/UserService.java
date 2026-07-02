@@ -2,6 +2,7 @@ package com.apexparts.service;
 
 import com.apexparts.model.User;
 import com.apexparts.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllEmployees() {
@@ -25,10 +28,28 @@ public class UserService {
 
     @Transactional
     public User registerClient(User client) {
+        if (client == null) {
+            throw new IllegalArgumentException("Podaci o klijentu ne mogu biti prazni.");
+        }
+        if (client.getUsername() == null || client.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("Korisničko ime je obavezno.");
+        }
+        if (client.getPassword() == null || client.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Lozinka je obavezna.");
+        }
+        if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("E-mail je obavezan.");
+        }
+
         if (userRepository.findByUsername(client.getUsername()).isPresent()) {
             throw new IllegalArgumentException("Korisničko ime '" + client.getUsername() + "' je zauzeto.");
         }
+        if (userRepository.findByEmail(client.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email ime '" + client.getEmail() + "' je zauzeto.");
+        }
         client.setRole("CLIENT");
+        String encodedPassword = passwordEncoder.encode(client.getPassword());
+        client.setPassword(encodedPassword);
         return userRepository.save(client);
     }
 
@@ -43,18 +64,21 @@ public class UserService {
         }
 
         if (userRepository.findByUsername(employeeUsername).isPresent()) {
-            throw new IllegalArgumentException("Korisničko ime zaposlenog '" + employeeUsername + "' je već u upotrebi.");
+            throw new IllegalArgumentException(
+                    "Korisničko ime zaposlenog '" + employeeUsername + "' je već u upotrebi.");
         }
 
         // Create new employee with default password matching their username
-        User employee = new User(employeeUsername, employeeUsername, "EMPLOYEE", employeeUsername + "@apexparts.com", null);
+        User employee = new User(employeeUsername, employeeUsername, "EMPLOYEE", employeeUsername + "@apexparts.com",
+                null);
         return userRepository.save(employee);
     }
 
     public User verifyLogin(String usernameOrEmail, String password) {
         User user = userRepository.findByUsername(usernameOrEmail)
                 .or(() -> userRepository.findByEmail(usernameOrEmail))
-                .orElseThrow(() -> new IllegalArgumentException("Korisnik sa tim korisničkim imenom ili e-mailom ne postoji."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Korisnik sa tim korisničkim imenom ili e-mailom ne postoji."));
 
         if (!user.getPassword().equals(password)) {
             throw new IllegalArgumentException("Pogrešna lozinka.");
